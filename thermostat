@@ -1,0 +1,156 @@
+type: vertical-stack
+cards:
+  - type: custom:better-thermostat-ui-card
+    entity: climate.living_room
+    step: 0.5
+    name: ' '
+    disable_buttons: true;
+    style: |
+      ha-card {
+        --mdc-icon-size: 40px;
+        margin-bottom: 40px;
+        margin-top: 0px;
+        padding-top: 0px !important;
+        box-shadow: none;
+        background: center/cover url('/local/nest.png');
+        {% if is_state_attr('climate.auto_airco', 'hvac_action', 'cooling') %}
+          background-color: rgba(82, 148, 226, 0.1);
+        {% else %}
+          background-color: transparent;
+        {% endif %}
+      }
+      bt-ha-control-circular-slider {
+        --primary-color: #ff8100 !important;
+      }
+      #bar, path {
+        stroke-width: 4 !important;
+      }
+      #bar {
+        stroke: #2b9af978 !important;
+      }
+      #main {
+        margin-top: -40px !important;
+      }
+      #main > text {
+        -webkit-transform: translate(3px, -2px) !important;
+        transform: translate(3px, -2px) !important;
+        font-size: 21px !important;
+        font-weight: 450 !important;
+        {% if is_state_attr('climate.living_room', 'hvac_action', 'heating') %}
+          fill: #ff8100 !important;
+        {% else %}
+          fill: var(--disabled-text-color);
+        {% endif %}
+      }
+      #main > text > tspan {
+        font-size: 8px !important;
+      }
+      #main > g.current-info > text {
+        font-size: 12px !important;
+        font-weight: 500;
+        -webkit-transform: translate(10px, -2px) !important;
+        transform: translate(10px, -2px) !important;
+      }
+      #main > g.current-info > text > tspan {
+        font-size: 5px !important;
+      }
+      #main > g.current-info .status {
+        display: none !important;
+      }
+      #shadowpath {
+        stroke: rgb(195 195 198) !important;
+      }
+      #value {
+        fill: #ff8100 !important;
+      }
+      #modes ha-icon-button.selected-icon, #modes .selected-icon {
+        {% if is_state_attr('climate.living_room', 'hvac_action', 'heating') %}
+          color: #ff8100;
+        {% else %}
+          color: var(--disabled-text-color);
+        {% endif %}
+      }
+      #modes {
+        width: 160px !important;
+        justify-content: space-between !important;
+        margin-left: 1em !important;
+        align-content: flex-end !important;
+        flex-wrap: wrap !important;
+      }
+      #main > line {
+        stroke: transparent !important;
+      }
+      #main > g.current-info > path {
+        transform: translate(8, -7) scale(0.45, 0.45) !important;
+      }
+    theme: transparent
+  - type: custom:mod-card
+    style:
+      .: |
+        ha-card {
+          background-color: transparent;
+          padding-bottom: 0px;
+          margin-bottom: 20px;
+          margin-top: '-20px';
+          box-shadow: none !important;
+        }
+      hui-grid-card$: |
+        :host #root {
+          justify-items: center !important;
+          box-shadow: none !important;
+        }
+    card:
+      type: grid
+      cards:
+        - name: ' '
+          icon: mdi:minus
+          size: 40%
+          show_state: false
+          entity: climate.living_room
+          styles:
+            card:
+              - width: 120px
+              - height: 50px
+              - border-bottom-left-radius: 20% 50%
+              - border-bottom-right-radius: 20% 50%
+              - border-top-left-radius: 20% 50%
+              - border-top-right-radius: 20% 50%
+              - background: lightgrey
+              - box-shadow: 2px 3px 15px rgba(0,0,0,.4)
+              - padding-left: 20px
+              - padding-right: 20px
+              - border: solid 2px '#0f4365'
+            icon:
+              - color: '#0f4365'
+          tap_action:
+            action: call-service
+            haptic: heavy
+            service: script.heating_minus_temp
+          type: custom:button-card
+        - name: ' '
+          icon: mdi:plus
+          size: 40%
+          show_state: false
+          entity: climate.living_room
+          styles:
+            card:
+              - width: 120px
+              - height: 50px
+              - border-bottom-left-radius: 20% 50%
+              - border-bottom-right-radius: 20% 50%
+              - border-top-left-radius: 20% 50%
+              - border-top-right-radius: 20% 50%
+              - background: lightgrey
+              - box-shadow: 2px 3px 15px rgba(0,0,0,.4)
+              - padding-left: 20px
+              - padding-right: 20px
+              - border: solid 2px '#0f4365'
+            icon:
+              - color: '#0f4365'
+          tap_action:
+            action: call-service
+            haptic: heavy
+            service: script.heating_plus_temp
+          type: custom:button-card
+      columns: 2
+      square: false
